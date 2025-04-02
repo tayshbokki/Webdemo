@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Event</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="styles.css">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
         .container {
             width: 300px;
             margin: 0 auto;
@@ -96,47 +96,8 @@
             color: #198754;
             font-weight: bold;
         }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: #ffffff;
-            border-bottom: 2px solid pink;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .navbar .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-        .navbar .nav-links a {
-            text-decoration: none;
-            color: black;
-            font-size: 16px;
-            margin: 0 15px;
-        }
-        .navbar .nav-links a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
-<div class="navbar">
-    <div class="logo">
-        <a href="https://ctaf-q8o9.onrender.com/home.html">CTAF</a>
-    </div>
-    <div class="nav-links">
-        <a href="https://ctaf-q8o9.onrender.com/home.html">Home</a>
-        <a href="https://ctaf-q8o9.onrender.com/home.html#howItWorks">How It Works</a>
-    </div>
-</div>
 <body>
 
 <div class="container">
@@ -212,7 +173,7 @@
         </select><br>
     </div>
 
-    <div class="form-group">
+    <div id="dates-method-container" style="display: none;">
         <label for="dates-method">What dates might work?</label><br>
         <select id="dates-method">
             <option value="specific-dates">Specific dates</option>
@@ -232,7 +193,6 @@
     </div>
 
     <div class="calendar-container" id="calendarContainer">
-        <label for="datePicker">What dates might work?</label>
         <div id="datePicker"></div>
     </div>
 
@@ -251,12 +211,14 @@
         if (type === 'datesAndTimes') {
             document.getElementById('datesTimesButton').classList.add('active');
             document.getElementById('timeSelection').style.display = 'block';
+            document.getElementById('dates-method-container').style.display = 'block'; // Show specific/days selection
         } else {
             document.getElementById('datesOnlyButton').classList.add('active');
             document.getElementById('timeSelection').style.display = 'none';
+            document.getElementById('dates-method-container').style.display = 'none'; // Hide when dates only
         }
 
-        document.getElementById('calendarContainer').style.display = 'none';
+        document.getElementById('calendarContainer').style.display = 'block';
         document.getElementById('dayContainer').style.display = 'none';
     }
 
@@ -275,6 +237,10 @@
     }
 
     toggleVisibility();
+    window.onload = function () {
+        selectEventType('datesOnly'); // Ensures dates only and calendar appear on load
+    };
+
     datesMethod.addEventListener('change', toggleVisibility);
 
     const days = document.querySelectorAll('.day');
